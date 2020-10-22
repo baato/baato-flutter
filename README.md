@@ -1,3 +1,4 @@
+[![Pub](https://img.shields.io/pub/v/baato_api.svg)](https://pub.dartlang.org/packages/baato_api)
 
 # baato-api
 
