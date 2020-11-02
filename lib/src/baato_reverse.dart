@@ -41,12 +41,8 @@ class BaatoReverse {
     Map responseBody;
     PlaceResponse returnable;
     try {
-      final response = await _client.get(apiBaseUrl, queryParameters: {
-        "key": accessToken,
-        "radius": radius,
-        "lat": latLon.lat,
-        "lon": latLon.lon
-      });
+      final response =
+          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = PlaceResponse.fromJson(responseBody);
     } on DioError catch (error) {
@@ -59,5 +55,15 @@ class BaatoReverse {
       }
     }
     return returnable;
+  }
+
+  Map<String, dynamic> getQueryParams() {
+    var queryParams = {
+      "key": accessToken,
+      "lat": latLon.lat,
+      "lon": latLon.lon
+    };
+    if (radius != null) queryParams['radius'] = radius;
+    return queryParams;
   }
 }

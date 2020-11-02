@@ -25,7 +25,7 @@ class Place {
         json['license'] as String,
         GeoCoord.fromJson(json['centroid']),
         Geometry.fromJson(json['geometry']),
-        _tags);
+        json['tags'].cast<String>());
   }
 
   @override

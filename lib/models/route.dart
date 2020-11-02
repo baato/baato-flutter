@@ -64,4 +64,9 @@ class RouteResponse {
       _routeResults,
     );
   }
+
+  @override
+  String toString() {
+    return 'RouteResponse{timestamp: $timestamp, status: $status, message: $message, data: $data}';
+  }
 }

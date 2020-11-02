@@ -46,13 +46,8 @@ class BaatoRoute {
     Map responseBody;
     RouteResponse returnable;
     try {
-      final response = await _client.get(apiBaseUrl, queryParameters: {
-        "key": accessToken,
-        "mode": mode,
-        "alternatives": alternatives,
-        "instructions": instructions,
-        "points": points,
-      });
+      final response =
+          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = RouteResponse.fromJson(responseBody);
     } on DioError catch (error) {
@@ -66,4 +61,13 @@ class BaatoRoute {
     }
     return returnable;
   }
+
+  Map<String, dynamic> getQueryParams() {
+    var queryParams = {'key': accessToken, "mode": mode, "points": points};
+    if (alternatives != null) queryParams['alternatives'] = alternatives;
+    if (instructions != null) queryParams['instructions'] = instructions;
+    return queryParams;
+  }
 }
+
+

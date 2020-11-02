@@ -10,17 +10,17 @@ class Instruction {
 
   Instruction(
       {this.points,
-        this.annotation,
-        this.sign,
-        this.name,
-        this.distance,
-        this.time,
-        this.extraInfoJSON,
-        this.length});
+      this.annotation,
+      this.sign,
+      this.name,
+      this.distance,
+      this.time,
+      this.extraInfoJSON,
+      this.length});
 
   Instruction.fromJson(Map<String, dynamic> json) {
     points =
-    json['points'] != null ? new Points.fromJson(json['points']) : null;
+        json['points'] != null ? new Points.fromJson(json['points']) : null;
     annotation = json['annotation'] != null
         ? new Annotation.fromJson(json['annotation'])
         : null;
@@ -52,6 +52,11 @@ class Instruction {
     data['length'] = this.length;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Instruction{points: $points, annotation: $annotation, sign: $sign, name: $name, distance: $distance, time: $time, extraInfoJSON: $extraInfoJSON, length: $length}';
+  }
 }
 
 class Points {
@@ -64,11 +69,11 @@ class Points {
 
   Points(
       {this.size,
-        this.intervalString,
-        this.immutable,
-        this.b3D,
-        this.dimension,
-        this.empty});
+      this.intervalString,
+      this.immutable,
+      this.b3D,
+      this.dimension,
+      this.empty});
 
   Points.fromJson(Map<String, dynamic> json) {
     size = json['size'];
@@ -88,6 +93,11 @@ class Points {
     data['dimension'] = this.dimension;
     data['empty'] = this.empty;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Points{size: $size, intervalString: $intervalString, immutable: $immutable, b3D: $b3D, dimension: $dimension, empty: $empty}';
   }
 }
 
@@ -111,6 +121,11 @@ class Annotation {
     data['message'] = this.message;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Annotation{empty: $empty, importance: $importance, message: $message}';
+  }
 }
 
 class ExtraInfoJSON {
@@ -126,5 +141,10 @@ class ExtraInfoJSON {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['heading'] = this.heading;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ExtraInfoJSON{heading: $heading}';
   }
 }

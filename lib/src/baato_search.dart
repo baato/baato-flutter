@@ -9,8 +9,9 @@ class BaatoSearch {
   String type;
   String apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/search";
-  int radius = 0, limit = 0;
-  double lat = 0.00, lon = 0.00;
+  int radius;
+  int limit;
+  double lat, lon;
 
   Dio _client;
 
@@ -45,15 +46,8 @@ class BaatoSearch {
     Map responseBody;
     SearchResponse returnable;
     try {
-      final response = await _client.get(apiBaseUrl, queryParameters: {
-        "key": accessToken,
-        "q": query,
-        "type": type,
-        "radius": radius,
-        "limit": limit,
-        "lat": lat,
-        "lon": lon
-      });
+      final response =
+          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = SearchResponse.fromJson(responseBody);
     } on DioError catch (error) {
@@ -66,5 +60,16 @@ class BaatoSearch {
       }
     }
     return returnable;
+  }
+
+  Map<String, dynamic> getQueryParams() {
+    var queryParams = {"key": accessToken, "q": query};
+    if (type != null) queryParams['type'] = type;
+    if (radius != null) queryParams['radius'] = radius.toString();
+    if (limit != null) queryParams['limit'] = limit.toString();
+    if (lat != null) queryParams['lat'] = lat.toString();
+    if (lon != null) queryParams['lon'] = lon.toString();
+    print(queryParams);
+    return queryParams;
   }
 }
