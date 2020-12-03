@@ -4,3 +4,5 @@
 ## [0.0.3]
 * support for Directions API
 * support for optional parameters in APIs
+## [0.0.4]
+* support for 'limit' parameter in Reverse API

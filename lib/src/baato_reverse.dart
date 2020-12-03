@@ -9,6 +9,7 @@ class BaatoReverse {
   String apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/reverse";
   int radius;
+  int limit;
   GeoCoord latLon;
 
   Dio _client;
@@ -21,6 +22,7 @@ class BaatoReverse {
     this.apiBaseUrl = "https://api.baato.io/api/v1/reverse",
     this.apiVersion,
     this.radius,
+    this.limit
   }) {
     if (latLon == null) {
       throw IsNullException('The latLon cannot be null');
@@ -64,6 +66,7 @@ class BaatoReverse {
       "lon": latLon.lon
     };
     if (radius != null) queryParams['radius'] = radius;
+    if (limit != null) queryParams['limit'] = limit;
     return queryParams;
   }
 }
