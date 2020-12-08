@@ -5,6 +5,7 @@ import 'package:baato_api/src/baato_place.dart';
 import 'package:baato_api/src/baato_reverse.dart';
 import 'package:baato_api/src/baato_route.dart';
 import 'package:baato_api/src/baato_search.dart';
+import 'package:baato_api/src/baato_utils.dart';
 
 void main() async {
   String baatoAccessToken = "your-baato-access-token";
@@ -37,15 +38,20 @@ void main() async {
       alternatives: false, //optional parameter
       instructions: false); //optional parameter
 
-  RouteResponse response = await baatoRoute.getRoutes();
-  print(response);
-
   SearchResponse searchResponse = await baatoSearch.searchQuery();
   print(searchResponse);
 
-  PlaceResponse reverse = await baatoReverse.reverseGeocode();
-  print(reverse);
+  PlaceResponse reverseResponse = await baatoReverse.reverseGeocode();
+  print(reverseResponse);
 
   PlaceResponse placeResponse = await baatoPlace.getPlaceDetails();
   print(placeResponse);
+
+  RouteResponse routeResponse = await baatoRoute.getRoutes();
+  print(routeResponse);
+
+  //if you need to decode the encoded polyline from the response
+  List<GeoCoord> routePoints=List<GeoCoord>();
+  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data[0].encodedPolyline);
+  print(routePoints);
 }

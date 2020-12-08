@@ -6,3 +6,5 @@
 * support for optional parameters in APIs
 ## [0.0.4]
 * support for 'limit' parameter in Reverse API
+## [0.0.5]
+* added method to decode encoded polyline received from Directions API and return the list of Geo Coordinates
