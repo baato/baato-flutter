@@ -1,13 +1,13 @@
 class Place {
-  final String license;
-  final Object score;
-  final String address;
+  final String? license;
+  final Object? score;
+  final String? address;
   final GeoCoord centroid;
-  final int placeId;
-  final String name;
+  final int? placeId;
+  final String? name;
   final Geometry geometry;
-  final String type;
-  final List<String> tags;
+  final String? type;
+  final List<String>? tags;
 
   Place(this.placeId, this.name, this.address, this.score, this.type,
       this.license, this.centroid, this.geometry, this.tags);
@@ -17,12 +17,12 @@ class Place {
     List<String> _tags ;
     // = tagsJson.map((e) => e).toList();
     return Place(
-        json['placeId'] as int,
-        json['name'] as String,
-        json['address'] as String,
-        json['score'] as Object,
-        json['type'] as String,
-        json['license'] as String,
+        json['placeId'] as int?,
+        json['name'] as String?,
+        json['address'] as String?,
+        json['score'] as Object?,
+        json['type'] as String?,
+        json['license'] as String?,
         GeoCoord.fromJson(json['centroid']),
         Geometry.fromJson(json['geometry']),
         json['tags'].cast<String>());
@@ -35,10 +35,10 @@ class Place {
 }
 
 class PlaceResponse {
-  final String timestamp;
-  final int status;
-  final String message;
-  final List<Place> data;
+  final String? timestamp;
+  final int? status;
+  final String? message;
+  final List<Place>? data;
 
   PlaceResponse(this.timestamp, this.status, this.message, [this.data]);
 
@@ -49,9 +49,9 @@ class PlaceResponse {
         .toList();
 
     return PlaceResponse(
-      json['timestamp'] as String,
-      json['status'] as int,
-      json['message'] as String,
+      json['timestamp'] as String?,
+      json['status'] as int?,
+      json['message'] as String?,
       _placeResults,
     );
   }
@@ -63,13 +63,13 @@ class PlaceResponse {
 }
 
 class Geometry {
-  final String type;
-  final Object coordinates;
+  final String? type;
+  final Object? coordinates;
 
   Geometry(this.type, this.coordinates);
 
   factory Geometry.fromJson(dynamic json) {
-    return Geometry(json['type'] as String, json['coordinates'] as Object);
+    return Geometry(json['type'] as String?, json['coordinates'] as Object?);
   }
 
   @override
@@ -80,7 +80,6 @@ class Geometry {
 
 class GeoCoord {
   final double lat, lon;
-
   GeoCoord(this.lat, this.lon);
 
   factory GeoCoord.fromJson(dynamic json) {

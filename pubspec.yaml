@@ -4,15 +4,14 @@ version: 0.0.5
 homepage: https://github.com/baato/baato-flutter.git
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  dio: ^3.0.10
-  meta: ^1.1.8
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
