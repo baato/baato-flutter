@@ -1,10 +1,10 @@
 import 'package:baato_api/models/instruction.dart';
 
 class Route {
-  String encodedPolyline;
-  double distanceInMeters;
-  int timeInMs;
-  List<Instruction> instructionList;
+  String? encodedPolyline;
+  double? distanceInMeters;
+  int? timeInMs;
+  List<Instruction>? instructionList;
 
   Route(
       {this.encodedPolyline,
@@ -17,9 +17,9 @@ class Route {
     distanceInMeters = json['distanceInMeters'];
     timeInMs = json['timeInMs'];
     if (json['instructionList'] != null) {
-      instructionList = new List<Instruction>();
+      instructionList = <Instruction>[];
       json['instructionList'].forEach((v) {
-        instructionList.add(new Instruction.fromJson(v));
+        instructionList!.add(new Instruction.fromJson(v));
       });
     }
   }
@@ -37,17 +37,17 @@ class Route {
     data['timeInMs'] = this.timeInMs;
     if (this.instructionList != null) {
       data['instructionList'] =
-          this.instructionList.map((v) => v.toJson()).toList();
+          this.instructionList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class RouteResponse {
-  final String timestamp;
-  final int status;
-  final String message;
-  final List<Route> data;
+  final String? timestamp;
+  final int? status;
+  final String? message;
+  final List<Route>? data;
 
   RouteResponse(this.timestamp, this.status, this.message, [this.data]);
 
@@ -58,9 +58,9 @@ class RouteResponse {
         .toList();
 
     return RouteResponse(
-      json['timestamp'] as String,
-      json['status'] as int,
-      json['message'] as String,
+      json['timestamp'] as String?,
+      json['status'] as int?,
+      json['message'] as String?,
       _routeResults,
     );
   }

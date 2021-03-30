@@ -48,10 +48,10 @@ void main() async {
   print(placeResponse);
 
   RouteResponse routeResponse = await baatoRoute.getRoutes();
-  print(routeResponse);
+  print("route response $routeResponse");
 
   //if you need to decode the encoded polyline from the response
-  List<GeoCoord> routePoints=List<GeoCoord>();
-  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data[0].encodedPolyline);
-  print(routePoints);
+  List<GeoCoord> routePoints;
+  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data![0].encodedPolyline!);
+  print("decoded route $routePoints");
 }

@@ -1,35 +1,25 @@
 import 'package:baato_api/models/place.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
-import 'exceptions.dart';
 
 class BaatoReverse {
   String accessToken;
   String apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/reverse";
-  int radius;
-  int limit;
+  int? radius;
+  int? limit;
   GeoCoord latLon;
 
-  Dio _client;
+  late Dio _client;
 
   /// To initialize Baato Reverse API parameters
   /// using [latLon] and [accessToken]
-  BaatoReverse.initialize({
-    @required this.latLon,
-    @required this.accessToken,
-    this.apiBaseUrl = "https://api.baato.io/api/v1/reverse",
-    this.apiVersion,
-    this.radius,
-    this.limit
-  }) {
-    if (latLon == null) {
-      throw IsNullException('The latLon cannot be null');
-    }
-    if (accessToken == null) {
-      throw IsNullException('The access token cannot be null');
-    }
+  BaatoReverse.initialize(
+      {required this.latLon,
+      required this.accessToken,
+      this.apiBaseUrl = "https://api.baato.io/api/v1/reverse",
+      this.apiVersion = "1",
+      this.radius,
+      this.limit}) {
     _initializeDio();
   }
 
@@ -40,7 +30,7 @@ class BaatoReverse {
 
   /// Reverse Search in baato
   Future<PlaceResponse> reverseGeocode() async {
-    Map responseBody;
+    Map? responseBody;
     PlaceResponse returnable;
     try {
       final response =
@@ -49,9 +39,9 @@ class BaatoReverse {
       returnable = PlaceResponse.fromJson(responseBody);
     } on DioError catch (error) {
       if (error.response != null) {
-        var response = error.response;
+        var response = error.response!;
         responseBody = response.data;
-        throw Exception(responseBody['message']);
+        throw Exception(responseBody!['message']);
       } else {
         throw Exception("Failed to send Reverse request");
       }
@@ -65,8 +55,8 @@ class BaatoReverse {
       "lat": latLon.lat,
       "lon": latLon.lon
     };
-    if (radius != null) queryParams['radius'] = radius;
-    if (limit != null) queryParams['limit'] = limit;
+    if (radius != null) queryParams['radius'] = radius!;
+    if (limit != null) queryParams['limit'] = limit!;
     return queryParams;
   }
 }
