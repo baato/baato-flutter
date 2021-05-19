@@ -1,12 +1,16 @@
 import 'package:baato_api/models/place.dart';
 import 'package:dio/dio.dart';
 
+import '../baato_api.dart';
+
 class BaatoReverse {
   String accessToken;
   String apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/reverse";
   int? radius;
   int? limit;
+  String? appId;
+  String? securityCode;
   GeoCoord latLon;
 
   late Dio _client;
@@ -16,6 +20,8 @@ class BaatoReverse {
   BaatoReverse.initialize(
       {required this.latLon,
       required this.accessToken,
+      this.appId,
+      this.securityCode,
       this.apiBaseUrl = "https://api.baato.io/api/v1/reverse",
       this.apiVersion = "1",
       this.radius,
@@ -57,6 +63,9 @@ class BaatoReverse {
     };
     if (radius != null) queryParams['radius'] = radius!;
     if (limit != null) queryParams['limit'] = limit!;
+    if (appId != null && securityCode != null)
+      queryParams['hash'] = BaatoUtils()
+          .generateHash(appId.toString(), accessToken, securityCode.toString());
     return queryParams;
   }
 }

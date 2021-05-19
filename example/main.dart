@@ -32,10 +32,12 @@ void main() async {
   );
 
   BaatoRoute baatoRoute = BaatoRoute.initialize(
-      mode: "car", //can be 'bike', 'car', 'foot'
+      mode: "car",
+      //can be 'bike', 'car', 'foot'
       accessToken: baatoAccessToken,
       points: points,
-      alternatives: false, //optional parameter
+      alternatives: false,
+      //optional parameter
       instructions: false); //optional parameter
 
   SearchResponse searchResponse = await baatoSearch.searchQuery();
@@ -52,6 +54,7 @@ void main() async {
 
   //if you need to decode the encoded polyline from the response
   List<GeoCoord> routePoints;
-  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data![0].encodedPolyline!);
+  routePoints = BaatoUtils()
+      .decodeEncodedPolyline(routeResponse.data![0].encodedPolyline!);
   print("decoded route $routePoints");
 }

@@ -1,9 +1,13 @@
 import 'package:baato_api/models/place.dart';
 import 'package:dio/dio.dart';
 
+import '../baato_api.dart';
+
 class BaatoPlace {
   String accessToken;
   String? apiVersion = "1";
+  String? appId;
+  String? securityCode;
   String apiBaseUrl = "https://api.baato.io/api/v1/places";
   int placeId = 0;
 
@@ -14,6 +18,8 @@ class BaatoPlace {
   BaatoPlace.initialize({
     required this.placeId,
     required this.accessToken,
+    this.appId,
+    this.securityCode,
     this.apiBaseUrl = "https://api.baato.io/api/v1/places",
     this.apiVersion,
   }) {
@@ -30,8 +36,8 @@ class BaatoPlace {
     Map? responseBody;
     PlaceResponse returnable;
     try {
-      final response = await _client.get(apiBaseUrl,
-          queryParameters: {"key": accessToken, "placeId": placeId});
+      final response =
+          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = PlaceResponse.fromJson(responseBody);
     } on DioError catch (error) {
@@ -44,5 +50,13 @@ class BaatoPlace {
       }
     }
     return returnable;
+  }
+
+  Map<String, dynamic> getQueryParams() {
+    var queryParams = {"key": accessToken, "placeId": placeId};
+    if (appId != null && securityCode != null)
+      queryParams['hash'] = BaatoUtils()
+          .generateHash(appId.toString(), accessToken, securityCode.toString());
+    return queryParams;
   }
 }

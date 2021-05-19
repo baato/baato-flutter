@@ -1,9 +1,12 @@
+import 'package:baato_api/baato_api.dart';
 import 'package:baato_api/models/search.dart';
 import 'package:dio/dio.dart';
 
 class BaatoSearch {
   String accessToken, query;
   String? type;
+  String? appId;
+  String? securityCode;
   String apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/search";
   int? radius;
@@ -14,16 +17,17 @@ class BaatoSearch {
 
   /// To initialize Baato Search API parameters
   /// using [query] and [accessToken]
-  BaatoSearch.initialize(
-      {required this.query,
-      required this.accessToken,
-      this.apiBaseUrl = "https://api.baato.io/api/v1/search",
-      this.apiVersion = "1",
-      this.type,
-      this.limit,
-      this.radius,
-      this.lat,
-      this.lon}) {
+  BaatoSearch.initialize({required this.query,
+    required this.accessToken,
+    this.appId,
+    this.securityCode,
+    this.apiBaseUrl = "https://api.baato.io/api/v1/search",
+    this.apiVersion = "1",
+    this.type,
+    this.limit,
+    this.radius,
+    this.lat,
+    this.lon}) {
     _initializeDio();
   }
 
@@ -37,7 +41,9 @@ class BaatoSearch {
     Map? responseBody;
     SearchResponse returnable;
     try {
-      final response = await _client.get(apiBaseUrl, queryParameters: getQueryParams());
+      print("search $apiBaseUrl $accessToken");
+      final response =
+      await _client.get(apiBaseUrl, queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = SearchResponse.fromJson(responseBody);
     } on DioError catch (error) {
@@ -59,6 +65,8 @@ class BaatoSearch {
     if (limit != null) queryParams['limit'] = limit.toString();
     if (lat != null) queryParams['lat'] = lat.toString();
     if (lon != null) queryParams['lon'] = lon.toString();
+    if (appId != null && securityCode != null)
+      queryParams['hash'] = BaatoUtils().generateHash(appId.toString(), accessToken, securityCode.toString());
     return queryParams;
   }
 }

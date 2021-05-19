@@ -1,12 +1,16 @@
 import 'package:baato_api/models/route.dart';
 import 'package:dio/dio.dart';
 
+import '../baato_api.dart';
+
 class BaatoRoute {
   String accessToken;
   String? apiVersion = "1";
   String apiBaseUrl = "https://api.baato.io/api/v1/directions";
   String mode;
   List points;
+  String? appId;
+  String? securityCode;
   bool? alternatives;
   bool? instructions;
   late Dio _client;
@@ -17,6 +21,8 @@ class BaatoRoute {
       {required this.accessToken,
       required this.mode,
       required this.points,
+      this.appId,
+      this.securityCode,
       this.apiBaseUrl = "https://api.baato.io/api/v1/directions",
       this.apiVersion,
       this.instructions,
@@ -54,8 +60,9 @@ class BaatoRoute {
     var queryParams = {'key': accessToken, "mode": mode, "points[]": points};
     if (alternatives != null) queryParams['alternatives'] = alternatives!;
     if (instructions != null) queryParams['instructions'] = instructions!;
+    if (appId != null && securityCode != null)
+      queryParams['hash'] = BaatoUtils()
+          .generateHash(appId.toString(), accessToken, securityCode.toString());
     return queryParams;
   }
 }
-
-
