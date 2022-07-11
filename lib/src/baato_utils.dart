@@ -1,6 +1,19 @@
-import 'package:baato_api/models/place.dart';
+import 'dart:convert';
 
-class BaatoUtils{
+import 'package:baato_api/models/place.dart';
+import 'package:crypto/crypto.dart';
+
+class BaatoUtils {
+  String generateHash(String appId, String accessToken, String securityCode) {
+    var key = utf8.encode(securityCode);
+    var messageBytes = utf8.encode(appId+accessToken);
+
+    Hmac hmac = new Hmac(sha512, key);
+    Digest digest = hmac.convert(messageBytes);
+
+    return digest.toString();
+  }
+
   List<GeoCoord> decodeEncodedPolyline(String encoded) {
     List<GeoCoord> poly = [];
     int index = 0, len = encoded.length;

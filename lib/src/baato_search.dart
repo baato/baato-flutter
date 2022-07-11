@@ -1,8 +1,11 @@
+import 'package:baato_api/baato_api.dart';
 import 'package:baato_api/models/search.dart';
 import 'package:dio/dio.dart';
 
 class BaatoSearch {
   String accessToken, query;
+  String? appId;
+  String? securityCode;
   String? type;
   String? apiVersion = "1";
   String? apiBaseUrl;
@@ -17,6 +20,8 @@ class BaatoSearch {
   BaatoSearch.initialize(
       {required this.query,
       required this.accessToken,
+      this.appId,
+      this.securityCode,
       this.apiBaseUrl,
       this.apiVersion,
       this.type,
@@ -62,6 +67,9 @@ class BaatoSearch {
     if (limit != null) queryParams['limit'] = limit.toString();
     if (lat != null) queryParams['lat'] = lat.toString();
     if (lon != null) queryParams['lon'] = lon.toString();
+    if (appId != null && securityCode != null)
+      queryParams['hash'] = BaatoUtils()
+          .generateHash(appId.toString(), accessToken, securityCode.toString());
     return queryParams;
   }
 }
