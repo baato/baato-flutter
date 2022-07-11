@@ -1,22 +1,27 @@
 name: baato_api
 description: Flutter package to consume Baato APIs. You can search for places, reverse geo code and request for directions for several modes of transportation, including bike, foot and car.
-version: 0.0.5
+version: 1.0.2
 homepage: https://github.com/baato/baato-flutter.git
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  sdk: ">=2.17.3 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  dio: ^3.0.10
-  meta: ^1.1.8
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -24,6 +29,10 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
 # To add assets to your package, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg

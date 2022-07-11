@@ -21,7 +21,7 @@ class SearchResponse {
   final String timestamp;
   final int status;
   final String message;
-  final List<Search> data;
+  final List<Search>? data;
 
   SearchResponse(this.timestamp, this.status, this.message, [this.data]);
 

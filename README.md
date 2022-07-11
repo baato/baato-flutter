@@ -16,7 +16,7 @@ Flutter library to help you consume [Baato](https://baato.io) APIs.
 This library is available at [pub.dev](https://pub.dev/packages/baato_api/). You can get the latest version from there. To get started, add the following to your package's pubspec.yaml file:
 
 dependencies:
-  baato_api: ^0.0.5 //use latest version
+  baato_api: ^1.0.2 //use latest version
 
 You can install packages from the command line:
 

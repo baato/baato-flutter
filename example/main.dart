@@ -9,10 +9,9 @@ import 'package:baato_api/src/baato_utils.dart';
 
 void main() async {
   String baatoAccessToken = "your-baato-access-token";
-
-  var points = [];
-  points.add("27.717844,85.3248188");
-  points.add("27.6876224,85.33827");
+  var geoPoints = [];
+  geoPoints.add("27.717844,85.3248188");
+  geoPoints.add("27.6876224,85.33827");
 
   BaatoSearch baatoSearch = BaatoSearch.initialize(
     query: 'naxal',
@@ -34,7 +33,7 @@ void main() async {
   BaatoRoute baatoRoute = BaatoRoute.initialize(
       mode: "car", //can be 'bike', 'car', 'foot'
       accessToken: baatoAccessToken,
-      points: points,
+      points: geoPoints,
       alternatives: false, //optional parameter
       instructions: false); //optional parameter
 
@@ -51,7 +50,7 @@ void main() async {
   print(routeResponse);
 
   //if you need to decode the encoded polyline from the response
-  List<GeoCoord> routePoints=List<GeoCoord>();
-  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data[0].encodedPolyline);
+  List<GeoCoord> routePoints=<GeoCoord>[];
+  routePoints=BaatoUtils().decodeEncodedPolyline(routeResponse.data![0].encodedPolyline ?? '');
   print(routePoints);
 }

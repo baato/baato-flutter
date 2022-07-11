@@ -1,12 +1,12 @@
 class Instruction {
-  Points points;
-  Annotation annotation;
-  int sign;
-  String name;
-  double distance;
-  int time;
-  ExtraInfoJSON extraInfoJSON;
-  int length;
+  Points? points;
+  Annotation? annotation;
+  int? sign;
+  String? name;
+  double? distance;
+  int? time;
+  ExtraInfoJSON? extraInfoJSON;
+  int? length;
 
   Instruction(
       {this.points,
@@ -36,18 +36,22 @@ class Instruction {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.points != null) {
-      data['points'] = this.points.toJson();
+    final points = this.points;
+    final annotation = this.annotation;
+    final extraInfoJSON = this.extraInfoJSON;
+
+    if (points != null) {
+      data['points'] = points.toJson();
     }
-    if (this.annotation != null) {
-      data['annotation'] = this.annotation.toJson();
+    if (annotation != null) {
+      data['annotation'] = annotation.toJson();
     }
     data['sign'] = this.sign;
     data['name'] = this.name;
     data['distance'] = this.distance;
     data['time'] = this.time;
-    if (this.extraInfoJSON != null) {
-      data['extraInfoJSON'] = this.extraInfoJSON.toJson();
+    if (extraInfoJSON != null) {
+      data['extraInfoJSON'] = extraInfoJSON.toJson();
     }
     data['length'] = this.length;
     return data;
@@ -60,12 +64,12 @@ class Instruction {
 }
 
 class Points {
-  int size;
-  String intervalString;
-  bool immutable;
-  bool b3D;
-  int dimension;
-  bool empty;
+  int? size;
+  String? intervalString;
+  bool? immutable;
+  bool? b3D;
+  int? dimension;
+  bool? empty;
 
   Points(
       {this.size,
@@ -102,9 +106,9 @@ class Points {
 }
 
 class Annotation {
-  bool empty;
-  int importance;
-  String message;
+  bool? empty;
+  int? importance;
+  String? message;
 
   Annotation({this.empty, this.importance, this.message});
 
@@ -129,7 +133,7 @@ class Annotation {
 }
 
 class ExtraInfoJSON {
-  double heading;
+  double? heading;
 
   ExtraInfoJSON({this.heading});
 

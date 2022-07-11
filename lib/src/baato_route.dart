@@ -1,44 +1,33 @@
 import 'package:baato_api/models/route.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
-import 'exceptions.dart';
 
 class BaatoRoute {
   String accessToken;
-  String apiVersion = "1";
-  String apiBaseUrl = "https://api.baato.io/api/v1/directions";
+  String? apiVersion = "1";
+  String? apiBaseUrl;
   String mode;
   List points;
-  bool alternatives;
-  bool instructions;
-  Dio _client;
+  bool? alternatives;
+  bool? instructions;
+  late Dio _client;
 
   /// To initialize Baato Route API parameters
   /// using [mode],[points] and [accessToken]
   BaatoRoute.initialize(
-      {@required this.accessToken,
-      @required this.mode,
-      @required this.points,
-      this.apiBaseUrl = "https://api.baato.io/api/v1/directions",
+      {required this.accessToken,
+      required this.mode,
+      required this.points,
+      this.apiBaseUrl,
       this.apiVersion,
       this.instructions,
       this.alternatives}) {
-    if (mode == null) {
-      throw IsNullException('The mode cannot be null');
-    }
-    if (points == null) {
-      throw IsNullException('The points cannot be null');
-    }
-    if (accessToken == null) {
-      throw IsNullException('The access token cannot be null');
-    }
     _initializeDio();
   }
 
   /// Initialize Dio client for network requests
   void _initializeDio() {
-    _client = Dio(BaseOptions(baseUrl: apiBaseUrl));
+    _client = Dio(BaseOptions(
+        baseUrl: apiBaseUrl ?? "https://api.baato.io/api/v1/directions"));
   }
 
   /// Routing using baato API
@@ -46,15 +35,16 @@ class BaatoRoute {
     Map responseBody;
     RouteResponse returnable;
     try {
-      final response =
-          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
+      final response = await _client.get(
+          apiBaseUrl ?? "https://api.baato.io/api/v1/directions",
+          queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = RouteResponse.fromJson(responseBody);
     } on DioError catch (error) {
       if (error.response != null) {
         var response = error.response;
-        responseBody = response.data;
-        throw Exception(responseBody['message']);
+        responseBody = response?.data;
+        throw Exception(response);
       } else {
         throw Exception("Failed to send Route request");
       }
@@ -63,11 +53,9 @@ class BaatoRoute {
   }
 
   Map<String, dynamic> getQueryParams() {
-    var queryParams = {'key': accessToken, "mode": mode, "points": points};
-    if (alternatives != null) queryParams['alternatives'] = alternatives;
-    if (instructions != null) queryParams['instructions'] = instructions;
+    var queryParams = {'key': accessToken, "mode": mode, "points[]": points};
+    if (alternatives != null) queryParams['alternatives'] = alternatives!;
+    if (instructions != null) queryParams['instructions'] = instructions!;
     return queryParams;
   }
 }
-
-

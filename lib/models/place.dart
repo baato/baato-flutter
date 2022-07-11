@@ -38,7 +38,7 @@ class PlaceResponse {
   final String timestamp;
   final int status;
   final String message;
-  final List<Place> data;
+  final List<Place>? data;
 
   PlaceResponse(this.timestamp, this.status, this.message, [this.data]);
 

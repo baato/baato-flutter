@@ -1,41 +1,32 @@
 import 'package:baato_api/models/place.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
-import 'exceptions.dart';
 
 class BaatoReverse {
   String accessToken;
-  String apiVersion = "1";
-  String apiBaseUrl = "https://api.baato.io/api/v1/reverse";
-  int radius;
-  int limit;
+  String? apiVersion = "1";
+  String? apiBaseUrl;
+  int? radius;
+  int? limit;
   GeoCoord latLon;
 
-  Dio _client;
+  late Dio _client;
 
   /// To initialize Baato Reverse API parameters
   /// using [latLon] and [accessToken]
-  BaatoReverse.initialize({
-    @required this.latLon,
-    @required this.accessToken,
-    this.apiBaseUrl = "https://api.baato.io/api/v1/reverse",
-    this.apiVersion,
-    this.radius,
-    this.limit
-  }) {
-    if (latLon == null) {
-      throw IsNullException('The latLon cannot be null');
-    }
-    if (accessToken == null) {
-      throw IsNullException('The access token cannot be null');
-    }
+  BaatoReverse.initialize(
+      {required this.latLon,
+      required this.accessToken,
+      this.apiBaseUrl,
+      this.apiVersion,
+      this.radius,
+      this.limit}) {
     _initializeDio();
   }
 
   /// Initialize Dio client for network requests
   void _initializeDio() {
-    _client = Dio(BaseOptions(baseUrl: apiBaseUrl));
+    _client = Dio(BaseOptions(
+        baseUrl: apiBaseUrl ?? "https://api.baato.io/api/v1/reverse"));
   }
 
   /// Reverse Search in baato
@@ -43,15 +34,16 @@ class BaatoReverse {
     Map responseBody;
     PlaceResponse returnable;
     try {
-      final response =
-          await _client.get(apiBaseUrl, queryParameters: getQueryParams());
+      final response = await _client.get(
+          apiBaseUrl ?? "https://api.baato.io/api/v1/reverse",
+          queryParameters: getQueryParams());
       responseBody = response.data;
       returnable = PlaceResponse.fromJson(responseBody);
     } on DioError catch (error) {
       if (error.response != null) {
         var response = error.response;
-        responseBody = response.data;
-        throw Exception(responseBody['message']);
+        responseBody = response?.data;
+        throw Exception(response);
       } else {
         throw Exception("Failed to send Reverse request");
       }
@@ -65,8 +57,8 @@ class BaatoReverse {
       "lat": latLon.lat,
       "lon": latLon.lon
     };
-    if (radius != null) queryParams['radius'] = radius;
-    if (limit != null) queryParams['limit'] = limit;
+    if (radius != null) queryParams['radius'] = radius!;
+    if (limit != null) queryParams['limit'] = limit!;
     return queryParams;
   }
 }
