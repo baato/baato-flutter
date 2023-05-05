@@ -15,13 +15,13 @@ Flutter library to help you consume [Baato](https://baato.io) APIs.
 
 This library is available at [pub.dev](https://pub.dev/packages/baato_api/). You can get the latest version from there. To get started, add the following to your package's pubspec.yaml file:
 
-dependencies:
-  baato_api: ^1.0.3 
+`dependencies:` <br>
+  `baato_api: ^1.0.3` 
 You can install packages from the command line:
 
 with Flutter: flutter pub get
 
-Now in your Dart code, you can use : import 'package:baato_api/baato_api.dart';
+Now in your Dart code, you can use : `import 'package:baato_api/baato_api.dart';`
 
  #### 1. Search 
  After initializing Baato with your access token and the query, the `searchQuery` method can be used to make requests to the Search API.
