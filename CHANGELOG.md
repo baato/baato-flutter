@@ -14,3 +14,5 @@
 * support for appId binding security
 ## [1.0.2]
 * migrates to Flutter 3
+## [1.0.3]
+* dependencies compatibility 

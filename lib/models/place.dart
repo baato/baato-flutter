@@ -14,7 +14,7 @@ class Place {
 
   factory Place.fromJson(dynamic json) {
     // var tagsJson = json['tags'] as List;
-    List<String> _tags ;
+    // List<String> _tags ;
     // = tagsJson.map((e) => e).toList();
     return Place(
         json['placeId'] as int,
