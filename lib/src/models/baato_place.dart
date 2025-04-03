@@ -15,7 +15,7 @@ class BaatoPlace {
   final String license;
 
   /// Relevance score for the place (higher is more relevant).
-  final double score;
+  final double? score;
 
   /// Formatted address of the place.
   final String address;
@@ -35,6 +35,24 @@ class BaatoPlace {
   /// List of tags associated with the place.
   final List<String> tags;
 
+  /// Radial distance in kilometers.
+  final double? radialDistanceInKm;
+
+  /// Indicates if the place is open.
+  final bool? open;
+
+  /// District of the place, used only for reverse geocode.
+  final String? district;
+
+  /// Municipality of the place, used only for reverse geocode.
+  final String? municipality;
+
+  /// Province of the place, used only for reverse geocode.
+  final String? province;
+
+  /// City of the place, used only for reverse geocode.
+  final String? city;
+
   /// Creates a new [BaatoPlace] instance.
   BaatoPlace(
     this.placeId,
@@ -47,11 +65,21 @@ class BaatoPlace {
     this.centroid,
     this.geometry,
     this.tags,
-  );
+    this.radialDistanceInKm,
+    this.open, {
+    this.district,
+    this.municipality,
+    this.province,
+    this.city,
+  });
 
   /// Creates a [BaatoPlace] from a JSON object.
   factory BaatoPlace.fromJson(dynamic json) {
-    final score = double.tryParse(json['score'].toString()) ?? 0.0;
+    final score = double.tryParse(json['score'].toString());
+    final radialDistanceInKm = double.tryParse(
+      json['radialDistanceInKm'].toString(),
+    );
+    final open = json['open'] as bool?;
     return BaatoPlace(
       json['placeId'] as int,
       json['osmId'] as int,
@@ -63,12 +91,18 @@ class BaatoPlace {
       BaatoCoordinate.fromJson(json['centroid']),
       Geometry.fromJson(json['geometry']),
       json['tags'].cast<String>(),
+      radialDistanceInKm,
+      open,
+      district: json['district'] as String?,
+      municipality: json['municipality'] as String?,
+      province: json['province'] as String?,
+      city: json['city'] as String?,
     );
   }
 
   @override
   String toString() {
-    return 'BaatoPlace{license: $license, score: $score, address: $address, centroid: $centroid, placeId: $placeId, name: $name, geometry: $geometry, type: $type, tags: $tags}';
+    return 'BaatoPlace{license: $license, score: $score, address: $address, centroid: $centroid, placeId: $placeId, name: $name, geometry: $geometry, type: $type, tags: $tags, radialDistanceInKm: $radialDistanceInKm, open: $open, district: $district, municipality: $municipality, province: $province, city: $city}';
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:baato_api/baato_api.dart';
 
 void main() async {
   // Your Baato API access token
-  String baatoAccessToken = "<<YOUR ACCESS TOKEN>>";
+  String baatoAccessToken = "<<YOUR BAATO ACCESS TOKEN>>";
 
   // Initialize the Baato API client with configuration
   final baatoAPI = BaatoAPI.initialize(
@@ -51,6 +51,7 @@ void main() async {
   // Perform reverse geocoding to find places at specific coordinates
   final reverse = await baatoAPI.place.reverseGeocode(
     BaatoCoordinate(27.7340912, 85.3368392), // Location to look up
+    addressParseEnabled: false,
   );
   print(reverse);
 }

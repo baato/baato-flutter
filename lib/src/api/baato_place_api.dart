@@ -52,7 +52,7 @@ abstract class BaatoPlaceAPI {
   /// [limit] - Optional maximum number of results to return
   Future<BaatoPlaceResponse> reverseGeocode(
     BaatoCoordinate coordinates, {
-    bool adminInfo,
+    bool addressParseEnabled,
     int? radius,
     int? limit,
   });
@@ -84,12 +84,12 @@ class BaatoPlaceImpl implements BaatoPlaceAPI {
     BaatoCoordinate coordinates, {
     int? radius,
     int? limit,
-    bool adminInfo = false,
+    bool addressParseEnabled = false,
   }) async {
     final queryParams = <String, dynamic>{
       'lat': coordinates.latitude,
       'lon': coordinates.longitude,
-      'adminInfo': adminInfo,
+      'adminInfo': addressParseEnabled,
     };
 
     if (radius != null) queryParams['radius'] = radius;
