@@ -1,67 +1,57 @@
-import 'package:baato_api/models/place.dart';
-import 'package:baato_api/models/route.dart';
-
 import 'package:baato_api/baato_api.dart';
-import 'package:baato_api/models/search.dart';
 
 // Visit https://baato.io/ to get your ACCESS token
 
 void main() async {
-  String baatoAccessToken = "YOUR_ACCESS_TOKEN";
+  // Your Baato API access token
+  String baatoAccessToken = "<<YOUR BAATO ACCESS TOKEN>>";
 
-//Baato Search
-
-  BaatoSearch baatoSearch = BaatoSearch.initialize(
-    query: 'Teaching Hospital',
-    accessToken: baatoAccessToken,
-    type: 'hospital', //optional parameter
-    limit: 5, //optional parameter
+  // Initialize the Baato API client with configuration
+  final baatoAPI = BaatoAPI.initialize(
+    apiKey: baatoAccessToken,
+    appId: "<<YOUR APP ID>>",
+    securityCode: "<<YOUR SECURITY CODE>>",
+    connectTimeoutInSeconds: 10,
+    receiveTimeoutInSeconds: 10,
+    enableLogging: true,
   );
 
-  //perform Search
-  SearchResponse response = await baatoSearch.searchQuery();
+  // Search for places by name with optional parameters
+  final response = await baatoAPI.place.search(
+    'Teaching Hospital',
+    type: 'hospital', // Filter results by place type
+    limit: 5, // Maximum number of results to return
+    currentCoordinate:
+        BaatoCoordinate(27.717844, 85.3248188), // Current location for context
+  );
   print(response);
 
-  //Baato Route
+  // Search for places near a specific location
+  final responseNearby = await baatoAPI.place.nearBy(
+    BaatoCoordinate(27.717844, 85.3248188), // Location to search around
+    type: 'hospital', // Type of places to find
+    limit: 5, // Maximum number of results
+  );
+  print(responseNearby);
 
-  var points = [];
-  points.add("27.717844,85.3248188");
-  points.add("27.6876224,85.33827");
-
-  BaatoRoute baatoRoute = BaatoRoute.initialize(
-      accessToken: baatoAccessToken,
-      points: points,
-      mode: "car", //can be 'bike', 'car', 'foot'
-      alternatives: false, //optional parameter
-      instructions: false); //optional parameter
-
-  //get routes between start and destination point
-  RouteResponse responseRoute = await baatoRoute.getRoutes();
+  // Get routing directions between two points
+  final responseRoute = await baatoAPI.direction.getRoutes(
+    startCoordinate: BaatoCoordinate(27.717844, 85.3248188), // Starting point
+    endCoordinate: BaatoCoordinate(27.6876224, 85.33827), // Destination point
+    mode: BaatoDirectionMode.car, // Transportation mode
+  );
   print(responseRoute);
 
-  //Baato Route END
-
-  //Place 
-
-  BaatoPlace baatoPlace = BaatoPlace.initialize(
-    placeId: 156068, //placeId is required parameter
-    accessToken: baatoAccessToken, //accessToken is required parameter
+  // Get detailed information about a specific place
+  final placeResponse = await baatoAPI.place.getDetail(
+    156068, // Unique place ID to look up
   );
-
-  //perform the place lookup
-  PlaceResponse placeResponse = await baatoPlace.getPlaceDetails();
   print(placeResponse);
 
- //Place END
-
-//Reverse Baato
-
-  BaatoReverse baatoReverse = BaatoReverse.initialize(
-    latLon: GeoCoord(27.7340912, 85.3368392),
-    accessToken: baatoAccessToken,
+  // Perform reverse geocoding to find places at specific coordinates
+  final reverse = await baatoAPI.place.reverseGeocode(
+    BaatoCoordinate(27.7340912, 85.3368392), // Location to look up
+    addressParseEnabled: false,
   );
-
-  //perform reverse Search
-  PlaceResponse reverse = await baatoReverse.reverseGeocode();
   print(reverse);
 }

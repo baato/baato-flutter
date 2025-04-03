@@ -1,12 +1,22 @@
 import 'dart:convert';
 
-import 'package:baato_api/models/place.dart';
+import 'package:baato_api/src/deprecated/place.dart';
 import 'package:crypto/crypto.dart';
 
+/// A utility class for Baato API operations
+///
+/// Provides helper methods for hash generation and polyline decoding
+/// @deprecated This class is deprecated and will be removed in a future version
+@deprecated
 class BaatoUtils {
+  /// Generates a hash for API authentication
+  ///
+  /// Creates a SHA-512 HMAC hash using the provided credentials
+  /// @deprecated This method is deprecated and will be removed in a future version
+  @deprecated
   String generateHash(String appId, String accessToken, String securityCode) {
     var key = utf8.encode(securityCode);
-    var messageBytes = utf8.encode(appId+accessToken);
+    var messageBytes = utf8.encode(appId + accessToken);
 
     Hmac hmac = new Hmac(sha512, key);
     Digest digest = hmac.convert(messageBytes);
@@ -14,6 +24,11 @@ class BaatoUtils {
     return digest.toString();
   }
 
+  /// Decodes an encoded polyline string into a list of geographic coordinates
+  ///
+  /// Converts a Google-encoded polyline string to a list of GeoCoord objects
+  /// @deprecated This method is deprecated and will be removed in a future version
+  @deprecated
   List<GeoCoord> decodeEncodedPolyline(String encoded) {
     List<GeoCoord> poly = [];
     int index = 0, len = encoded.length;
