@@ -17,7 +17,7 @@ void main() async {
   );
 
   // Search for places by name with optional parameters
-  final response = await baatoAPI.place.searchPlaces(
+  final response = await baatoAPI.place.search(
     'Teaching Hospital',
     type: 'hospital', // Filter results by place type
     limit: 5, // Maximum number of results to return
@@ -27,7 +27,7 @@ void main() async {
   print(response);
 
   // Search for places near a specific location
-  final responseNearby = await baatoAPI.place.nearByPlaces(
+  final responseNearby = await baatoAPI.place.nearBy(
     BaatoCoordinate(27.717844, 85.3248188), // Location to search around
     type: 'hospital', // Type of places to find
     limit: 5, // Maximum number of results
@@ -43,7 +43,7 @@ void main() async {
   print(responseRoute);
 
   // Get detailed information about a specific place
-  final placeResponse = await baatoAPI.place.getPlaceDetails(
+  final placeResponse = await baatoAPI.place.getDetail(
     156068, // Unique place ID to look up
   );
   print(placeResponse);

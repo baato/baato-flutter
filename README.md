@@ -36,7 +36,7 @@ To use the Baato API in your Flutter application, follow these steps:
 2. **Search for places by name**:
 
    ```dart
-   final response = await baatoAPI.place.searchPlaces(
+   final response = await baatoAPI.place.search(
      'Teaching Hospital',
      type: 'hospital', // Filter results by place type
      limit: 5, // Maximum number of results to return
@@ -48,7 +48,7 @@ To use the Baato API in your Flutter application, follow these steps:
 3. **Search for nearby places**:
 
    ```dart
-   final responseNearby = await baatoAPI.place.nearByPlaces(
+   final responseNearby = await baatoAPI.place.nearBy(
      BaatoCoordinate(27.717844, 85.3248188), // Location to search around
      type: 'hospital', // Type of places to find
      limit: 5, // Maximum number of results
@@ -70,7 +70,7 @@ To use the Baato API in your Flutter application, follow these steps:
 5. **Get detailed information about a specific place**:
 
    ```dart
-   final placeResponse = await baatoAPI.place.getPlaceDetails(
+   final placeResponse = await baatoAPI.place.getDetail(
      156068, // Unique place ID to look up
    );
    print(placeResponse);
@@ -87,3 +87,7 @@ To use the Baato API in your Flutter application, follow these steps:
 For more detailed documentation and examples, visit the [Baato API GitHub repository](https://github.com/baato/baato-flutter.git).
 
 ## Installation
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

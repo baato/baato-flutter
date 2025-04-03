@@ -16,7 +16,7 @@ abstract class BaatoPlaceAPI {
   /// [type] - Optional filter for place types
   /// [radius] - Optional search radius in meters
   /// [currentCoordinate] - Optional current location coordinates
-  Future<BaatoSearchPlaceResponse> searchPlaces(
+  Future<BaatoSearchPlaceResponse> search(
     String query, {
     int limit,
     String? type,
@@ -31,7 +31,7 @@ abstract class BaatoPlaceAPI {
   /// [sortByDistance] - Whether to sort results by distance
   /// [limit] - Optional maximum number of results to return
   /// [radius] - Optional search radius in meters
-  Future<BaatoPlaceResponse> nearByPlaces(
+  Future<BaatoPlaceResponse> nearBy(
     BaatoCoordinate coordinates, {
     required String type,
     bool sortByDistance,
@@ -43,7 +43,7 @@ abstract class BaatoPlaceAPI {
   /// Retrieves detailed information about a specific place
   ///
   /// [placeId] - The unique identifier of the place
-  Future<BaatoPlaceResponse> getPlaceDetails(int placeId);
+  Future<BaatoPlaceResponse> getDetail(int placeId);
 
   /// Performs reverse geocoding to find places near specified coordinates
   ///
@@ -71,7 +71,7 @@ class BaatoPlaceImpl implements BaatoPlaceAPI {
   BaatoPlaceImpl({required this.dio});
 
   @override
-  Future<BaatoPlaceResponse> getPlaceDetails(int placeId) async {
+  Future<BaatoPlaceResponse> getDetail(int placeId) async {
     final response = await dio.get(
       BaatoApiEndpoint.places,
       queryParameters: {'placeId': placeId},
@@ -103,7 +103,7 @@ class BaatoPlaceImpl implements BaatoPlaceAPI {
   }
 
   @override
-  Future<BaatoSearchPlaceResponse> searchPlaces(
+  Future<BaatoSearchPlaceResponse> search(
     String query, {
     int limit = 5,
     String? type,
@@ -127,7 +127,7 @@ class BaatoPlaceImpl implements BaatoPlaceAPI {
   }
 
   @override
-  Future<BaatoPlaceResponse> nearByPlaces(
+  Future<BaatoPlaceResponse> nearBy(
     BaatoCoordinate coordinates, {
     required String type,
     bool sortByDistance = true,
