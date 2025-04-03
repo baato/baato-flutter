@@ -1,6 +1,7 @@
 import 'package:baato_api/src/api/baato_dio.dart';
 import 'package:baato_api/src/api/baato_direction_api.dart';
 import 'package:baato_api/src/api/baato_place_api.dart';
+import 'package:baato_api/src/models/export_model.dart';
 
 /// Main entry point for the Baato API client
 ///

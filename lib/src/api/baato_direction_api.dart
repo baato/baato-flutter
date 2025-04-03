@@ -10,6 +10,7 @@ abstract class BaatoDirectionAPI {
     List<BaatoCoordinate> midCoordinates,
     bool alternatives,
     bool instructions,
+    bool decodePolyline,
   });
 
   Future<Map<String, dynamic>?> getRouteForMapbox({
@@ -34,6 +35,7 @@ class BaatoDirectionImpl implements BaatoDirectionAPI {
     List<BaatoCoordinate> midCoordinates = const [],
     bool alternatives = false,
     bool instructions = false,
+    bool decodePolyline = false,
   }) async {
     final List<String> points = [
       "${startCoordinate.latitude},${startCoordinate.longitude}",
@@ -57,7 +59,10 @@ class BaatoDirectionImpl implements BaatoDirectionAPI {
       BaatoApiEndpoint.directions,
       queryParameters: queryParams,
     );
-    return BaatoRouteResponse.fromJson(response.data);
+    return BaatoRouteResponse.fromJson(
+      response.data,
+      decodePolyline: decodePolyline,
+    );
   }
 
   @override
