@@ -108,8 +108,8 @@ class BaatoRoute {
       int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
       lng += dlng;
       BaatoCoordinate p = BaatoCoordinate(
-        (lat / 1E5).toDouble(),
-        (lng / 1E5).toDouble(),
+        latitude: (lat / 1E5).toDouble(),
+        longitude: (lng / 1E5).toDouble(),
       );
       poly.add(p);
     }
@@ -149,15 +149,14 @@ class BaatoRouteResponse {
     bool decodePolyline = false,
   }) {
     var responseDataJson = json['data'] as List;
-    List<BaatoRoute> _routeResults =
-        responseDataJson
-            .map(
-              (searchJson) => BaatoRoute.fromJson(
-                searchJson,
-                decodePolyline: decodePolyline,
-              ),
-            )
-            .toList();
+    List<BaatoRoute> _routeResults = responseDataJson
+        .map(
+          (searchJson) => BaatoRoute.fromJson(
+            searchJson,
+            decodePolyline: decodePolyline,
+          ),
+        )
+        .toList();
 
     return BaatoRouteResponse(
       json['timestamp'] as String,

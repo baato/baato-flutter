@@ -21,14 +21,19 @@ void main() async {
     'Teaching Hospital',
     type: 'hospital', // Filter results by place type
     limit: 5, // Maximum number of results to return
-    currentCoordinate:
-        BaatoCoordinate(27.717844, 85.3248188), // Current location for context
+    currentCoordinate: BaatoCoordinate(
+      latitude: 27.717844,
+      longitude: 85.3248188,
+    ), // Current location for context
   );
   print(response);
 
   // Search for places near a specific location
   final responseNearby = await baatoAPI.place.nearBy(
-    BaatoCoordinate(27.717844, 85.3248188), // Location to search around
+    BaatoCoordinate(
+      latitude: 27.717844,
+      longitude: 85.3248188,
+    ), // Location to search around
     type: 'hospital', // Type of places to find
     limit: 5, // Maximum number of results
   );
@@ -36,8 +41,14 @@ void main() async {
 
   // Get routing directions between two points
   final responseRoute = await baatoAPI.direction.getRoutes(
-    startCoordinate: BaatoCoordinate(27.717844, 85.3248188), // Starting point
-    endCoordinate: BaatoCoordinate(27.6876224, 85.33827), // Destination point
+    startCoordinate: BaatoCoordinate(
+      latitude: 27.717844,
+      longitude: 85.3248188,
+    ), // Starting point
+    endCoordinate: BaatoCoordinate(
+      latitude: 27.6876224,
+      longitude: 85.33827,
+    ), // Destination point
     mode: BaatoDirectionMode.car, // Transportation mode
   );
   print(responseRoute);
@@ -50,7 +61,10 @@ void main() async {
 
   // Perform reverse geocoding to find places at specific coordinates
   final reverse = await baatoAPI.place.reverseGeocode(
-    BaatoCoordinate(27.7340912, 85.3368392), // Location to look up
+    BaatoCoordinate(
+      latitude: 27.7340912,
+      longitude: 85.3368392,
+    ), // Location to look up
     addressParseEnabled: false,
   );
   print(reverse);

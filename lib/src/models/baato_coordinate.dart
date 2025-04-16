@@ -12,7 +12,7 @@ class BaatoCoordinate {
   ///
   /// [latitude] - The latitude in decimal degrees
   /// [longitude] - The longitude in decimal degrees
-  BaatoCoordinate(this.latitude, this.longitude);
+  BaatoCoordinate({required this.latitude, required this.longitude});
 
   /// Creates a BaatoCoordinate from JSON data
   ///
@@ -20,7 +20,7 @@ class BaatoCoordinate {
   factory BaatoCoordinate.fromJson(Map<String, dynamic> json) {
     final latitude = double.parse(json['lat'].toString());
     final longitude = double.parse(json['lon'].toString());
-    return BaatoCoordinate(latitude, longitude);
+    return BaatoCoordinate(latitude: latitude, longitude: longitude);
   }
 
   /// Converts this coordinate to a JSON representation
