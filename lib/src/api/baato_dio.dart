@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:baato_api/src/api/baato_api_endpoints.dart';
+import 'package:baato_api/src/api/interceptors.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 
@@ -54,6 +55,8 @@ class BaatoDio {
         },
       ),
     );
+    _dio.interceptors.add(PackageInfoInterceptors(appId));
+    
 
     // Add logging interceptor for debugging
     if (addLoggingInterceptor) {
