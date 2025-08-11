@@ -50,3 +50,7 @@
   - New initialization pattern
   - Updated method signatures
   - Restructured response models
+
+## [2.0.1]
+- Upgraded `dio` to the latest version
+- Added support for `appId` in API configuration
