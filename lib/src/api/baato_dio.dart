@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:baato_api/src/api/baato_api_endpoints.dart';
 import 'package:baato_api/src/api/interceptors.dart';
-import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 
 /// A utility class for handling HTTP requests to the Baato API
@@ -55,8 +52,11 @@ class BaatoDio {
         },
       ),
     );
-    _dio.interceptors.add(PackageInfoInterceptors(appId));
-    
+
+    _dio.interceptors.addAll([
+      PackageInfoInterceptors(appId),
+      KeyHashInterceptors(securityCode, apiKey)
+    ]);
 
     // Add logging interceptor for debugging
     if (addLoggingInterceptor) {
@@ -80,16 +80,9 @@ class BaatoDio {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      // Add API key to all requests
-      final params = queryParameters ?? {};
-      params['key'] = apiKey;
-
       // Add hash if appId and securityCode are provided
-      if (appId != null && securityCode != null) {
-        params['hash'] = _generateHash(appId!, apiKey, securityCode!);
-      }
 
-      final response = await _dio.get(endpoint.path, queryParameters: params);
+      final response = await _dio.get(endpoint.path, queryParameters:queryParameters);
       return response;
     } on DioException catch (e) {
       _handleError(e);
@@ -108,18 +101,10 @@ class BaatoDio {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      // Add API key to all requests
-      final params = queryParameters ?? {};
-      params['key'] = apiKey;
-
-      if (appId != null && securityCode != null) {
-        params['hash'] = _generateHash(appId!, apiKey, securityCode!);
-      }
-
       final response = await _dio.post(
         endpoint.path,
         data: data,
-        queryParameters: params,
+        queryParameters: queryParameters
       );
       return response;
     } on DioException catch (e) {
@@ -136,16 +121,6 @@ class BaatoDio {
     } else {
       print('Error Message: ${error.message}');
     }
-  }
-
-  String _generateHash(String appId, String accessToken, String securityCode) {
-    var key = utf8.encode(securityCode);
-    var messageBytes = utf8.encode(appId + accessToken);
-
-    Hmac hmac = new Hmac(sha512, key);
-    Digest digest = hmac.convert(messageBytes);
-
-    return digest.toString();
   }
 
   /// Returns the Dio instance for direct access if needed
